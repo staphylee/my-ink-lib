@@ -72,13 +72,21 @@ export default function Home() {
                 key={ink.id} 
                 className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-transform active:scale-95"
               >
-                {/* 颜色展示区 */}
+                {/* 颜色展示区 / 图片区 */}
                 <div 
-                  className="h-32 w-full flex items-end p-4 relative"
-                  style={{ backgroundColor: ink.hex_code || "#e5e7eb" }}
+                  className="h-48 w-full flex items-end p-4 relative bg-cover bg-center"
+                  style={{ 
+                    backgroundColor: ink.hex_code || "#e5e7eb",
+                    backgroundImage: ink.image_urls && ink.image_urls.length > 0 ? `url(${ink.image_urls[0]})` : 'none'
+                  }}
                 >
-                  {/* 如果没有设置色值，显示提示 */}
-                  {!ink.hex_code && (
+                  {/* 半透明遮罩，为了让标签更清晰 */}
+                  {ink.image_urls && ink.image_urls.length > 0 && (
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                  )}
+
+                  {/* 如果没有设置色值和图片，显示提示 */}
+                  {!ink.hex_code && (!ink.image_urls || ink.image_urls.length === 0) && (
                     <span className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
                       暂无色值
                     </span>
