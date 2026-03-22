@@ -19,6 +19,23 @@ type Ink = {
 export default function Home() {
   const [inks, setInks] = useState<Ink[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // 搜索和筛选状态
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterSheen, setFilterSheen] = useState(false);
+  const [filterShimmer, setFilterShimmer] = useState(false);
+  const [filterShading, setFilterShading] = useState(false);
+
+  // 派生状态：根据搜索和筛选条件过滤后的墨水列表
+  const filteredInks = inks.filter(ink => {
+    const matchSearch = ink.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        ink.brand.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchSheen = filterSheen ? ink.has_sheen : true;
+    const matchShimmer = filterShimmer ? ink.has_shimmer : true;
+    const matchShading = filterShading ? ink.has_shading : true;
+    
+    return matchSearch && matchSheen && matchShimmer && matchShading;
+  });
 
   // 当页面加载时，去 Supabase 获取数据
   useEffect(() => {
@@ -54,20 +71,51 @@ export default function Home() {
       </header>
 
       <div className="p-6 max-w-md mx-auto">
+        {/* 搜索与筛选区 */}
+        <div className="mb-6 space-y-4">
+          <input 
+            type="text" 
+            placeholder="搜索墨水名称或品牌..." 
+            className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-800 bg-white"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            <button 
+              onClick={() => setFilterSheen(!filterSheen)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${filterSheen ? 'bg-gray-800 text-white' : 'bg-white text-gray-600 border border-gray-200'}`}
+            >
+              ✨ Sheen (金属光泽)
+            </button>
+            <button 
+              onClick={() => setFilterShimmer(!filterShimmer)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${filterShimmer ? 'bg-gray-800 text-white' : 'bg-white text-gray-600 border border-gray-200'}`}
+            >
+              🌟 Shimmer (金粉)
+            </button>
+            <button 
+              onClick={() => setFilterShading(!filterShading)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${filterShading ? 'bg-gray-800 text-white' : 'bg-white text-gray-600 border border-gray-200'}`}
+            >
+              🌊 Shading (层析/渐变)
+            </button>
+          </div>
+        </div>
+
         {loading ? (
           <div className="flex justify-center items-center h-40">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-800"></div>
           </div>
-        ) : inks.length === 0 ? (
+        ) : filteredInks.length === 0 ? (
           <div className="text-center text-gray-500 mt-10 p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
             <p className="text-lg mb-2">🫙</p>
-            <p>还没有收录任何墨水</p>
-            <p className="text-sm mt-2 text-gray-400">请在数据库中添加数据后刷新查看</p>
+            <p>没有找到符合条件的墨水</p>
+            <p className="text-sm mt-2 text-gray-400">请尝试更换搜索词或取消筛选标签</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6">
             {/* 墨水卡片列表 */}
-            {inks.map((ink) => (
+            {filteredInks.map((ink) => (
               <div 
                 key={ink.id} 
                 className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-transform active:scale-95"
