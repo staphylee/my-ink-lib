@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { X, Droplet, Calendar, MapPin, Sparkles, Droplets, Waves } from "lucide-react";
 
 // 定义墨水的数据类型，与我们在数据库中建立的表结构一致
 type Ink = {
@@ -10,15 +11,21 @@ type Ink = {
   series: string | null;
   name: string;
   hex_code: string | null;
+  origin: string | null;
+  release_year: number | null;
+  base_type: string | null;
   has_sheen: boolean;
   has_shimmer: boolean;
   has_shading: boolean;
+  is_scented: boolean;
+  is_waterproof: boolean;
   image_urls: string[] | null;
 };
 
 export default function Home() {
   const [inks, setInks] = useState<Ink[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedInk, setSelectedInk] = useState<Ink | null>(null);
   
   // 搜索和筛选状态
   const [searchQuery, setSearchQuery] = useState("");
@@ -60,6 +67,18 @@ export default function Home() {
 
     fetchInks();
   }, []);
+
+  // 禁用背景滚动
+  useEffect(() => {
+    if (selectedInk) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedInk]);
 
   return (
     <main className="min-h-screen bg-gray-50 pb-20">
@@ -118,7 +137,8 @@ export default function Home() {
             {filteredInks.map((ink) => (
               <div 
                 key={ink.id} 
-                className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-transform active:scale-95"
+                onClick={() => setSelectedInk(ink)}
+                className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 transition-transform active:scale-95 cursor-pointer"
               >
                 {/* 颜色展示区 / 图片区 */}
                 <div 
@@ -165,6 +185,126 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* 详情页 Modal (从底部弹出的 PWA 风格) */}
+      {selectedInk && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 transition-opacity animate-in fade-in duration-200">
+          <div 
+            className="bg-white w-full sm:max-w-lg h-[90vh] sm:h-auto sm:max-h-[90vh] rounded-t-3xl sm:rounded-3xl overflow-hidden flex flex-col shadow-2xl animate-in slide-in-from-bottom-10 duration-300"
+          >
+            {/* 头部固定栏 */}
+            <div className="flex justify-between items-center p-4 border-b border-gray-100 sticky top-0 bg-white/90 backdrop-blur-md z-10">
+              <div className="font-semibold text-gray-800">{selectedInk.brand}</div>
+              <button 
+                onClick={() => setSelectedInk(null)}
+                className="p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-600 transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            {/* 滚动内容区 */}
+            <div className="overflow-y-auto flex-1 pb-10">
+              {/* 大图展示 */}
+              <div 
+                className="w-full h-72 sm:h-80 bg-gray-100 relative"
+                style={{ 
+                  backgroundColor: selectedInk.hex_code || "#e5e7eb",
+                  backgroundImage: selectedInk.image_urls && selectedInk.image_urls.length > 0 ? `url(${selectedInk.image_urls[0]})` : 'none',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
+              >
+                {!selectedInk.hex_code && (!selectedInk.image_urls || selectedInk.image_urls.length === 0) && (
+                  <div className="absolute inset-0 flex items-center justify-center text-gray-400">暂无图片</div>
+                )}
+              </div>
+              
+              {/* 详情信息 */}
+              <div className="p-6">
+                <div className="text-sm font-semibold tracking-wider text-gray-500 uppercase mb-2">
+                  {selectedInk.series || "经典系列"}
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">{selectedInk.name}</h2>
+                
+                {/* 颜色色值 */}
+                {selectedInk.hex_code && (
+                  <div className="flex items-center gap-3 mb-8">
+                    <div 
+                      className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
+                      style={{ backgroundColor: selectedInk.hex_code }}
+                    ></div>
+                    <span className="font-mono text-gray-600 font-medium">{selectedInk.hex_code.toUpperCase()}</span>
+                  </div>
+                )}
+                
+                {/* 属性网格 */}
+                <h3 className="text-lg font-bold text-gray-800 mb-4">墨水特性</h3>
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className={`p-4 rounded-2xl border ${selectedInk.has_sheen ? 'bg-blue-50 border-blue-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <Sparkles size={18} className={selectedInk.has_sheen ? 'text-blue-500' : 'text-gray-400'} />
+                      <span className={`font-semibold ${selectedInk.has_sheen ? 'text-blue-900' : 'text-gray-500'}`}>Sheen</span>
+                    </div>
+                    <p className="text-xs text-gray-500">金属反光</p>
+                  </div>
+                  <div className={`p-4 rounded-2xl border ${selectedInk.has_shimmer ? 'bg-yellow-50 border-yellow-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <Droplets size={18} className={selectedInk.has_shimmer ? 'text-yellow-500' : 'text-gray-400'} />
+                      <span className={`font-semibold ${selectedInk.has_shimmer ? 'text-yellow-900' : 'text-gray-500'}`}>Shimmer</span>
+                    </div>
+                    <p className="text-xs text-gray-500">金粉/银粉</p>
+                  </div>
+                  <div className={`p-4 rounded-2xl border ${selectedInk.has_shading ? 'bg-teal-50 border-teal-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <Waves size={18} className={selectedInk.has_shading ? 'text-teal-500' : 'text-gray-400'} />
+                      <span className={`font-semibold ${selectedInk.has_shading ? 'text-teal-900' : 'text-gray-500'}`}>Shading</span>
+                    </div>
+                    <p className="text-xs text-gray-500">层析/渐变</p>
+                  </div>
+                  <div className={`p-4 rounded-2xl border ${selectedInk.is_waterproof ? 'bg-indigo-50 border-indigo-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <Droplet size={18} className={selectedInk.is_waterproof ? 'text-indigo-500' : 'text-gray-400'} />
+                      <span className={`font-semibold ${selectedInk.is_waterproof ? 'text-indigo-900' : 'text-gray-500'}`}>Waterproof</span>
+                    </div>
+                    <p className="text-xs text-gray-500">防水特性</p>
+                  </div>
+                </div>
+
+                {/* 基础信息 */}
+                <h3 className="text-lg font-bold text-gray-800 mb-4">基本信息</h3>
+                <div className="space-y-3 bg-gray-50 p-5 rounded-2xl">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-gray-500">
+                      <MapPin size={16} />
+                      <span className="text-sm">产地</span>
+                    </div>
+                    <span className="text-sm font-medium text-gray-800">{selectedInk.origin || "未知"}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-gray-500">
+                      <Calendar size={16} />
+                      <span className="text-sm">发售年份</span>
+                    </div>
+                    <span className="text-sm font-medium text-gray-800">{selectedInk.release_year || "未知"}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-gray-500">
+                      <Droplet size={16} />
+                      <span className="text-sm">墨水基底</span>
+                    </div>
+                    <span className="text-sm font-medium text-gray-800">
+                      {selectedInk.base_type === 'Dye' ? '染料 (Dye)' : 
+                       selectedInk.base_type === 'Pigment' ? '颜料 (Pigment)' : 
+                       selectedInk.base_type === 'Iron Gall' ? '铁胆 (Iron Gall)' : "未知"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
