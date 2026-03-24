@@ -110,9 +110,12 @@ export default function Home() {
               className="w-full appearance-none px-4 py-3 rounded-2xl border border-gray-200 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-800 font-medium"
             >
               <option value="">🏷️ 全部品牌</option>
-              <option value="Pilot">Pilot (百乐色彩雫)</option>
-              <option value="Sailor">Sailor (写乐四季彩)</option>
+              <option value="Pilot">Pilot (百乐)</option>
+              <option value="Sailor">Sailor (写乐)</option>
               <option value="Diamine">Diamine (戴阿米)</option>
+              <option value="Tono & Lims">Tono & Lims</option>
+              <option value="Kobe">Kobe (神户墨水)</option>
+              <option value="Nakabayashi">Nakabayashi (仲林 / Taccia)</option>
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
               <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
