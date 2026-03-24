@@ -29,6 +29,7 @@ export default function Home() {
   
   // 搜索和筛选状态
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterBrand, setFilterBrand] = useState("");
   const [filterSheen, setFilterSheen] = useState(false);
   const [filterShimmer, setFilterShimmer] = useState(false);
   const [filterShading, setFilterShading] = useState(false);
@@ -37,11 +38,12 @@ export default function Home() {
   const filteredInks = inks.filter(ink => {
     const matchSearch = ink.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                         ink.brand.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchBrand = filterBrand ? ink.brand.toLowerCase() === filterBrand.toLowerCase() : true;
     const matchSheen = filterSheen ? ink.has_sheen : true;
     const matchShimmer = filterShimmer ? ink.has_shimmer : true;
     const matchShading = filterShading ? ink.has_shading : true;
     
-    return matchSearch && matchSheen && matchShimmer && matchShading;
+    return matchSearch && matchBrand && matchSheen && matchShimmer && matchShading;
   });
 
   // 当页面加载时，去 Supabase 获取数据
@@ -99,6 +101,26 @@ export default function Home() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          
+          {/* 品牌下拉筛选 */}
+          <div className="relative">
+            <select
+              value={filterBrand}
+              onChange={(e) => setFilterBrand(e.target.value)}
+              className="w-full appearance-none px-4 py-3 rounded-2xl border border-gray-200 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-800 font-medium"
+            >
+              <option value="">🏷️ 全部品牌</option>
+              <option value="Pilot">Pilot (百乐色彩雫)</option>
+              <option value="Sailor">Sailor (写乐四季彩)</option>
+              <option value="Diamine">Diamine (戴阿米)</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+              </svg>
+            </div>
+          </div>
+
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             <button 
               onClick={() => setFilterSheen(!filterSheen)}
