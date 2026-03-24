@@ -174,11 +174,13 @@ export default function Home() {
                   </div>
                   <h2 className="text-xl font-bold text-gray-900 mb-1">{ink.name}</h2>
                   
+                  {/* 暂时隐藏列表卡片上的色号展示
                   {ink.hex_code && (
                     <div className="text-sm text-gray-500 font-mono mt-3">
                       {ink.hex_code.toUpperCase()}
                     </div>
                   )}
+                  */}
                 </div>
               </div>
             ))}
@@ -227,7 +229,7 @@ export default function Home() {
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">{selectedInk.name}</h2>
                 
-                {/* 颜色色值 */}
+                {/* 暂时隐藏详情页中的色号展示
                 {selectedInk.hex_code && (
                   <div className="flex items-center gap-3 mb-8">
                     <div 
@@ -237,6 +239,7 @@ export default function Home() {
                     <span className="font-mono text-gray-600 font-medium">{selectedInk.hex_code.toUpperCase()}</span>
                   </div>
                 )}
+                */}
                 
                 {/* 属性网格 */}
                 <h3 className="text-lg font-bold text-gray-800 mb-4">墨水特性</h3>
