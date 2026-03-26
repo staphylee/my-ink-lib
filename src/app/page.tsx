@@ -22,6 +22,18 @@ type Ink = {
   image_urls: string[] | null;
 };
 
+function getDisplaySeriesName(series: string | null) {
+  if (!series) return "";
+
+  const seriesNameMap: Record<string, string> = {
+    "Deep Dark": "深色系列",
+    "深暗（Deep Dark）": "深色系列",
+    "深色系列（Deep Dark）": "深色系列",
+  };
+
+  return seriesNameMap[series] || series;
+}
+
 export default function Home() {
   const [inks, setInks] = useState<Ink[]>([]);
   const [loading, setLoading] = useState(true);
@@ -98,7 +110,9 @@ export default function Home() {
         if (error) {
           console.error("获取数据失败:", error);
         } else {
-          setInks(data || []);
+          // 临时隐藏没有试色图的数据，待图片补齐后再展示
+          const validInks = (data || []).filter(ink => ink.image_urls && ink.image_urls.length > 0);
+          setInks(validInks);
         }
       } catch (err) {
         console.error("发生错误:", err);
@@ -200,7 +214,7 @@ export default function Home() {
                   >
                     <option value="">全部系列</option>
                     {availableSeries.map(series => (
-                      <option key={series} value={series}>{series}</option>
+                      <option key={series} value={series}>{getDisplaySeriesName(series)}</option>
                     ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
@@ -316,8 +330,8 @@ export default function Home() {
                   {/* 标签 */}
                   <div className="absolute top-2 right-2 flex flex-col gap-1 items-end">
                     {ink.has_sheen && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">Sheen</span>}
-                    {ink.has_shimmer && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">Shimmer</span>}
-                    {ink.has_shading && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">Shading</span>}
+                    {ink.has_shimmer && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">闪粉</span>}
+                    {ink.has_shading && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">层析</span>}
                   </div>
                 </div>
 
@@ -334,7 +348,7 @@ export default function Home() {
                     </div>
                     {ink.series && (
                       <div className="text-[10px] sm:text-[11px] text-gray-400 truncate mt-0.5">
-                        {ink.series}
+                        {getDisplaySeriesName(ink.series)}
                       </div>
                     )}
                   </div>
@@ -353,7 +367,7 @@ export default function Home() {
           >
             {/* 头部固定栏 */}
             <div className="flex justify-between items-center p-4 border-b border-gray-100 sticky top-0 bg-white/90 backdrop-blur-md z-10">
-              <div className="font-semibold text-gray-800 truncate pr-4">{selectedInk.brand} {selectedInk.series ? `· ${selectedInk.series}` : ''}</div>
+              <div className="font-semibold text-gray-800 truncate pr-4">{selectedInk.brand} {selectedInk.series ? `· ${getDisplaySeriesName(selectedInk.series)}` : ''}</div>
               <button 
                 onClick={() => setSelectedInk(null)}
                 className="p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-600 transition-colors shrink-0"
