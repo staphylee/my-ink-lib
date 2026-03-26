@@ -110,9 +110,7 @@ export default function Home() {
         if (error) {
           console.error("获取数据失败:", error);
         } else {
-          // 临时隐藏没有试色图的数据，待图片补齐后再展示
-          const validInks = (data || []).filter(ink => ink.image_urls && ink.image_urls.length > 0);
-          setInks(validInks);
+          setInks(data || []);
         }
       } catch (err) {
         console.error("发生错误:", err);
