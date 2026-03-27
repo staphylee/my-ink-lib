@@ -488,13 +488,13 @@ export default function Home() {
         </div>
       )}
 
-      {/* 对比详情 Modal (横向排版，全屏) */}
+      {/* 对比详情 Modal (同屏网格布局) */}
       {showCompareModal && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-white animate-in slide-in-from-bottom-0 duration-300">
+        <div className="fixed inset-0 z-50 flex flex-col bg-gray-50 animate-in slide-in-from-bottom-0 duration-300">
           {/* 对比模式的头部 */}
-          <div className="flex justify-between items-center p-4 border-b border-gray-100 shadow-sm shrink-0 bg-white">
+          <div className="flex justify-between items-center p-4 border-b border-gray-200 shadow-sm shrink-0 bg-white">
             <h2 className="font-bold text-lg text-gray-800 flex items-center gap-2">
-              <Layers size={20} /> 横向颜色对比
+              <Layers size={20} /> 同屏颜色对比
             </h2>
             <button 
               onClick={() => setShowCompareModal(false)}
@@ -504,70 +504,52 @@ export default function Home() {
             </button>
           </div>
           
-          {/* 横向滚动的对比容器 */}
-          <div className="flex-1 overflow-x-auto flex snap-x snap-mandatory">
-            {compareIds.map(id => {
-              const ink = inks.find(i => i.id === id);
-              if (!ink) return null;
-              return (
-                <div key={id} className="min-w-[50%] sm:min-w-[280px] max-w-[50%] flex-1 border-r border-gray-100 last:border-r-0 flex flex-col h-full snap-start">
-                  {/* 大图展示 */}
-                  <div 
-                    className="w-full h-48 sm:h-64 bg-gray-100 relative shrink-0"
-                    style={{ 
-                      backgroundColor: ink.hex_code || "#e5e7eb",
-                      backgroundImage: ink.image_urls && ink.image_urls.length > 0 ? `url(${ink.image_urls[0]})` : 'none',
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center'
-                    }}
-                  >
-                    {!ink.hex_code && (!ink.image_urls || ink.image_urls.length === 0) && (
-                      <div className="absolute inset-0 flex items-center justify-center text-gray-400">暂无图</div>
-                    )}
-                  </div>
-                  
-                  {/* 信息展示 */}
-                  <div className="p-4 flex flex-col gap-4 overflow-y-auto pb-10">
-                    <div>
-                      <h3 className="font-bold text-gray-900 text-base sm:text-xl leading-tight mb-1">{ink.name}</h3>
-                      <p className="text-[11px] sm:text-xs text-gray-500">{ink.brand}</p>
-                      {ink.series && <p className="text-[10px] sm:text-[11px] text-gray-400 mt-0.5">{getDisplaySeriesName(ink.series)}</p>}
-                    </div>
-
-                    {/* 特性 tags */}
-                    <div className="flex flex-wrap gap-1.5">
-                      {ink.has_sheen && <span className="px-2 py-1 bg-blue-50 text-blue-700 text-[10px] sm:text-xs rounded-md font-medium border border-blue-100">Sheen</span>}
-                      {ink.has_shimmer && <span className="px-2 py-1 bg-yellow-50 text-yellow-700 text-[10px] sm:text-xs rounded-md font-medium border border-yellow-100">闪粉</span>}
-                      {ink.has_shading && <span className="px-2 py-1 bg-teal-50 text-teal-700 text-[10px] sm:text-xs rounded-md font-medium border border-teal-100">层析</span>}
-                      {ink.is_waterproof && <span className="px-2 py-1 bg-indigo-50 text-indigo-700 text-[10px] sm:text-xs rounded-md font-medium border border-indigo-100">防水</span>}
-                      {!ink.has_sheen && !ink.has_shimmer && !ink.has_shading && !ink.is_waterproof && (
-                        <span className="text-[10px] sm:text-xs text-gray-400">无特殊属性</span>
+          {/* 同屏网格布局 (手机端2列，电脑端根据数量自适应) */}
+          <div className="flex-1 overflow-y-auto p-2 sm:p-4">
+            <div className={`grid gap-2 sm:gap-4 max-w-5xl mx-auto h-full ${
+              compareIds.length === 2 ? 'grid-cols-2' : 
+              compareIds.length === 3 ? 'grid-cols-2 sm:grid-cols-3' : 
+              'grid-cols-2' // 4个时就是 2x2 网格
+            }`}>
+              {compareIds.map(id => {
+                const ink = inks.find(i => i.id === id);
+                if (!ink) return null;
+                return (
+                  <div key={id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 flex flex-col">
+                    {/* 大图展示 */}
+                    <div 
+                      className={`${compareIds.length > 2 ? 'h-32 sm:h-48' : 'h-48 sm:h-80'} w-full relative shrink-0`}
+                      style={{ 
+                        backgroundColor: ink.hex_code || "#e5e7eb",
+                        backgroundImage: ink.image_urls && ink.image_urls.length > 0 ? `url(${ink.image_urls[0]})` : 'none',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                    >
+                      {!ink.hex_code && (!ink.image_urls || ink.image_urls.length === 0) && (
+                        <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">暂无图</div>
                       )}
                     </div>
+                    
+                    {/* 信息展示 (仅品牌、系列、名称、标签) */}
+                    <div className="p-3 sm:p-4 flex flex-col flex-grow bg-white">
+                      <div>
+                        <h3 className="font-bold text-gray-900 text-sm sm:text-lg leading-tight mb-1 line-clamp-2">{ink.name}</h3>
+                        <p className="text-[11px] sm:text-xs text-gray-500 mt-1">{ink.brand}</p>
+                        {ink.series && <p className="text-[10px] sm:text-[11px] text-gray-400 mt-0.5">{getDisplaySeriesName(ink.series)}</p>}
+                      </div>
 
-                    {/* 基础信息列表 */}
-                    <div className="space-y-3 mt-2 bg-gray-50 rounded-xl p-3 sm:p-4">
-                      <div className="flex flex-col gap-1 pb-2 border-b border-gray-200/60">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider">产地</span>
-                        <span className="text-xs sm:text-sm font-medium text-gray-800">{ink.origin || "未知"}</span>
-                      </div>
-                      <div className="flex flex-col gap-1 pb-2 border-b border-gray-200/60">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider">年份</span>
-                        <span className="text-xs sm:text-sm font-medium text-gray-800">{ink.release_year || "未知"}</span>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider">基底</span>
-                        <span className="text-xs sm:text-sm font-medium text-gray-800">
-                          {ink.base_type === 'Dye' ? '染料 (Dye)' : 
-                           ink.base_type === 'Pigment' ? '颜料 (Pigment)' : 
-                           ink.base_type === 'Iron Gall' ? '铁胆 (Iron Gall)' : "未知"}
-                        </span>
+                      {/* 特性 tags */}
+                      <div className="flex flex-wrap gap-1 mt-3">
+                        {ink.has_sheen && <span className="px-1.5 py-0.5 bg-blue-50 text-blue-700 text-[10px] rounded border border-blue-100">Sheen</span>}
+                        {ink.has_shimmer && <span className="px-1.5 py-0.5 bg-yellow-50 text-yellow-700 text-[10px] rounded border border-yellow-100">闪粉</span>}
+                        {ink.has_shading && <span className="px-1.5 py-0.5 bg-teal-50 text-teal-700 text-[10px] rounded border border-teal-100">层析</span>}
                       </div>
                     </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
         </div>
       )}
