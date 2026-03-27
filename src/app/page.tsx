@@ -494,7 +494,7 @@ export default function Home() {
           {/* 对比模式的头部 */}
           <div className="flex justify-between items-center p-4 border-b border-gray-200 shadow-sm shrink-0 bg-white">
             <h2 className="font-bold text-lg text-gray-800 flex items-center gap-2">
-              <Layers size={20} /> 同屏颜色对比
+              <Layers size={20} /> 颜色对比
             </h2>
             <button 
               onClick={() => setShowCompareModal(false)}
