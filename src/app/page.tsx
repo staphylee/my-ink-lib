@@ -658,17 +658,25 @@ export default function Home() {
                       <Droplet size={16} />
                       <span className="text-sm">墨水基底</span>
                     </div>
-                    <span className="text-sm font-medium text-gray-800">
-                      {selectedInk.base_type === 'Dye' ? '染料 (Dye)' : 
-                       selectedInk.base_type === 'Pigment' ? '颜料 (Pigment)' : 
-                       selectedInk.base_type === 'Iron Gall' ? '铁胆 (Iron Gall)' : "未知"}
-                    </span>
+                        <span className="text-sm font-medium text-gray-800">
+                          {selectedInk.base_type === 'Dye' ? '染料 (Dye)' : 
+                           selectedInk.base_type === 'Pigment' ? '颜料 (Pigment)' : 
+                           selectedInk.base_type === 'Iron Gall' ? '铁胆 (Iron Gall)' : "未知"}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* 图片来源声明 */}
+                    {selectedInk.image_urls && selectedInk.image_urls.length > 0 && (
+                      <div className="mt-8 text-center text-xs text-gray-400 border-t border-gray-100 pt-4">
+                        <p>🖼️ 试色图来源：Mountain of Ink 等网络公开渠道</p>
+                        <p className="mt-1 opacity-70">（非商业展示，仅供墨水爱好者交流参考）</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
       )}
     </main>
   );
