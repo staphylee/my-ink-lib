@@ -278,50 +278,53 @@ export default function Home() {
               <div className="space-y-3">
                 <label className="text-xs font-medium text-gray-500">墨水特性</label>
                 <div className="space-y-3">
-                  <label className="flex items-center gap-3 cursor-pointer group">
-                    <div className="relative flex items-center justify-center">
-                      <input 
-                        type="checkbox" 
-                        className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-gray-800 checked:border-gray-800 transition-colors"
-                        checked={filterSheen}
-                        onChange={(e) => setFilterSheen(e.target.checked)}
-                      />
-                      <svg className="absolute w-3 h-3 text-white pointer-events-none opacity-0 peer-checked:opacity-100" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                    <span className="text-sm text-gray-700 group-hover:text-gray-900">Sheen (光泽)</span>
-                  </label>
-                  
-                  <label className="flex items-center gap-3 cursor-pointer group">
-                    <div className="relative flex items-center justify-center">
-                      <input 
-                        type="checkbox" 
-                        className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-gray-800 checked:border-gray-800 transition-colors"
-                        checked={filterShading}
-                        onChange={(e) => setFilterShading(e.target.checked)}
-                      />
-                      <svg className="absolute w-3 h-3 text-white pointer-events-none opacity-0 peer-checked:opacity-100" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                    <span className="text-sm text-gray-700 group-hover:text-gray-900">Shading (深浅变化)</span>
-                  </label>
+                          <label className="flex items-center gap-3 cursor-pointer group">
+                            <div className="relative flex items-center justify-center">
+                              <input 
+                                type="checkbox" 
+                                className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-gray-800 checked:border-gray-800 transition-colors"
+                                checked={filterSheen}
+                                onChange={(e) => setFilterSheen(e.target.checked)}
+                              />
+                              <svg className="absolute w-3 h-3 text-white pointer-events-none opacity-0 peer-checked:opacity-100" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                            </div>
+                            <span className="text-sm text-gray-700 group-hover:text-gray-900">Sheen (光泽)</span>
+                          </label>
+                          
+                          {/* 
+                          // 暂且隐藏 层析 和 闪粉 的筛选器
+                          <label className="flex items-center gap-3 cursor-pointer group">
+                            <div className="relative flex items-center justify-center">
+                              <input 
+                                type="checkbox" 
+                                className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-gray-800 checked:border-gray-800 transition-colors"
+                                checked={filterShading}
+                                onChange={(e) => setFilterShading(e.target.checked)}
+                              />
+                              <svg className="absolute w-3 h-3 text-white pointer-events-none opacity-0 peer-checked:opacity-100" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                            </div>
+                            <span className="text-sm text-gray-700 group-hover:text-gray-900">Shading (深浅变化)</span>
+                          </label>
 
-                  <label className="flex items-center gap-3 cursor-pointer group">
-                    <div className="relative flex items-center justify-center">
-                      <input 
-                        type="checkbox" 
-                        className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-gray-800 checked:border-gray-800 transition-colors"
-                        checked={filterShimmer}
-                        onChange={(e) => setFilterShimmer(e.target.checked)}
-                      />
-                      <svg className="absolute w-3 h-3 text-white pointer-events-none opacity-0 peer-checked:opacity-100" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                    <span className="text-sm text-gray-700 group-hover:text-gray-900">Shimmer (闪粉)</span>
-                  </label>
+                          <label className="flex items-center gap-3 cursor-pointer group">
+                            <div className="relative flex items-center justify-center">
+                              <input 
+                                type="checkbox" 
+                                className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-gray-800 checked:border-gray-800 transition-colors"
+                                checked={filterShimmer}
+                                onChange={(e) => setFilterShimmer(e.target.checked)}
+                              />
+                              <svg className="absolute w-3 h-3 text-white pointer-events-none opacity-0 peer-checked:opacity-100" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                            </div>
+                            <span className="text-sm text-gray-700 group-hover:text-gray-900">Shimmer (闪粉)</span>
+                          </label>
+                          */}
                 </div>
               </div>
 
@@ -383,12 +386,14 @@ export default function Home() {
                     </span>
                   )}
                   
-                  {/* 标签 */}
-                  <div className="absolute top-2 right-2 flex flex-col gap-1 items-end z-10">
-                    {ink.has_sheen && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">Sheen</span>}
-                    {ink.has_shimmer && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">闪粉</span>}
-                    {ink.has_shading && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">层析</span>}
-                  </div>
+                          {/* 标签 */}
+                          <div className="absolute top-2 right-2 flex flex-col gap-1 items-end z-10">
+                            {ink.has_sheen && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">Sheen</span>}
+                            {/* 暂时隐藏层析和闪粉标签
+                            {ink.has_shimmer && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">闪粉</span>}
+                            {ink.has_shading && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">层析</span>}
+                            */}
+                          </div>
                 </div>
 
                 {/* 信息及操作区 */}
@@ -542,8 +547,10 @@ export default function Home() {
                       {/* 特性 tags */}
                       <div className="flex flex-wrap gap-1 mt-3">
                         {ink.has_sheen && <span className="px-1.5 py-0.5 bg-blue-50 text-blue-700 text-[10px] rounded border border-blue-100">Sheen</span>}
+                        {/* 暂时隐藏层析和闪粉标签
                         {ink.has_shimmer && <span className="px-1.5 py-0.5 bg-yellow-50 text-yellow-700 text-[10px] rounded border border-yellow-100">闪粉</span>}
                         {ink.has_shading && <span className="px-1.5 py-0.5 bg-teal-50 text-teal-700 text-[10px] rounded border border-teal-100">层析</span>}
+                        */}
                       </div>
                     </div>
                   </div>
@@ -603,38 +610,42 @@ export default function Home() {
                   </button>
                 </div>
                 
-                {/* 属性网格 */}
-                <h3 className="text-lg font-bold text-gray-800 mb-4">墨水特性</h3>
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div className={`p-4 rounded-2xl border ${selectedInk.has_sheen ? 'bg-blue-50 border-blue-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <Sparkles size={18} className={selectedInk.has_sheen ? 'text-blue-500' : 'text-gray-400'} />
-                      <span className={`font-semibold ${selectedInk.has_sheen ? 'text-blue-900' : 'text-gray-500'}`}>Sheen</span>
-                    </div>
-                    <p className="text-xs text-gray-500">金属反光</p>
-                  </div>
-                  <div className={`p-4 rounded-2xl border ${selectedInk.has_shimmer ? 'bg-yellow-50 border-yellow-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <Droplets size={18} className={selectedInk.has_shimmer ? 'text-yellow-500' : 'text-gray-400'} />
-                      <span className={`font-semibold ${selectedInk.has_shimmer ? 'text-yellow-900' : 'text-gray-500'}`}>Shimmer</span>
-                    </div>
-                    <p className="text-xs text-gray-500">金粉/银粉</p>
-                  </div>
-                  <div className={`p-4 rounded-2xl border ${selectedInk.has_shading ? 'bg-teal-50 border-teal-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <Waves size={18} className={selectedInk.has_shading ? 'text-teal-500' : 'text-gray-400'} />
-                      <span className={`font-semibold ${selectedInk.has_shading ? 'text-teal-900' : 'text-gray-500'}`}>Shading</span>
-                    </div>
-                    <p className="text-xs text-gray-500">层析/渐变</p>
-                  </div>
-                  <div className={`p-4 rounded-2xl border ${selectedInk.is_waterproof ? 'bg-indigo-50 border-indigo-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <Droplet size={18} className={selectedInk.is_waterproof ? 'text-indigo-500' : 'text-gray-400'} />
-                      <span className={`font-semibold ${selectedInk.is_waterproof ? 'text-indigo-900' : 'text-gray-500'}`}>Waterproof</span>
-                    </div>
-                    <p className="text-xs text-gray-500">防水特性</p>
-                  </div>
-                </div>
+                        {/* 属性网格 */}
+                        <h3 className="text-lg font-bold text-gray-800 mb-4">墨水特性</h3>
+                        <div className="grid grid-cols-2 gap-4 mb-8">
+                          <div className={`p-4 rounded-2xl border ${selectedInk.has_sheen ? 'bg-blue-50 border-blue-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
+                            <div className="flex items-center gap-2 mb-1">
+                              <Sparkles size={18} className={selectedInk.has_sheen ? 'text-blue-500' : 'text-gray-400'} />
+                              <span className={`font-semibold ${selectedInk.has_sheen ? 'text-blue-900' : 'text-gray-500'}`}>Sheen</span>
+                            </div>
+                            <p className="text-xs text-gray-500">金属反光</p>
+                          </div>
+                          
+                          {/* 暂时隐藏闪粉和层析标签
+                          <div className={`p-4 rounded-2xl border ${selectedInk.has_shimmer ? 'bg-yellow-50 border-yellow-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
+                            <div className="flex items-center gap-2 mb-1">
+                              <Droplets size={18} className={selectedInk.has_shimmer ? 'text-yellow-500' : 'text-gray-400'} />
+                              <span className={`font-semibold ${selectedInk.has_shimmer ? 'text-yellow-900' : 'text-gray-500'}`}>Shimmer</span>
+                            </div>
+                            <p className="text-xs text-gray-500">金粉/银粉</p>
+                          </div>
+                          <div className={`p-4 rounded-2xl border ${selectedInk.has_shading ? 'bg-teal-50 border-teal-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
+                            <div className="flex items-center gap-2 mb-1">
+                              <Waves size={18} className={selectedInk.has_shading ? 'text-teal-500' : 'text-gray-400'} />
+                              <span className={`font-semibold ${selectedInk.has_shading ? 'text-teal-900' : 'text-gray-500'}`}>Shading</span>
+                            </div>
+                            <p className="text-xs text-gray-500">层析/渐变</p>
+                          </div>
+                          */}
+
+                          <div className={`p-4 rounded-2xl border ${selectedInk.is_waterproof ? 'bg-indigo-50 border-indigo-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
+                            <div className="flex items-center gap-2 mb-1">
+                              <Droplet size={18} className={selectedInk.is_waterproof ? 'text-indigo-500' : 'text-gray-400'} />
+                              <span className={`font-semibold ${selectedInk.is_waterproof ? 'text-indigo-900' : 'text-gray-500'}`}>Waterproof</span>
+                            </div>
+                            <p className="text-xs text-gray-500">防水特性</p>
+                          </div>
+                        </div>
 
                 {/* 基础信息 */}
                 <h3 className="text-lg font-bold text-gray-800 mb-4">基本信息</h3>
