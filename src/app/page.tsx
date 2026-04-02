@@ -681,8 +681,7 @@ export default function Home() {
                     {selectedInk.image_urls && selectedInk.image_urls.length > 0 && (
                       <div className="mt-8 text-center text-xs text-gray-400 border-t border-gray-100 pt-4">
                         <p>🖼️ 当前色卡为网络搜集临时占位（侵权即删）</p>
-                        <p className="mt-1 opacity-70">非盈利公益展示。我们正在开发“用户传图”功能，</p>
-                        <p className="mt-1 opacity-70">期待未来与大家一起共建纯原创的中文彩墨档案馆！</p>
+                        <p className="mt-1 opacity-70">非盈利公益展示，仅供墨水爱好者交流参考。</p>
                       </div>
                     )}
                   </div>
