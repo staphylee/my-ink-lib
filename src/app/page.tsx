@@ -275,6 +275,7 @@ export default function Home() {
               </div>
 
               {/* 墨水特性 */}
+              {/* 暂时隐藏所有特性筛选器
               <div className="space-y-3">
                 <label className="text-xs font-medium text-gray-500">墨水特性</label>
                 <div className="space-y-3">
@@ -327,6 +328,7 @@ export default function Home() {
                           */}
                 </div>
               </div>
+              */}
 
               {/* 重置按钮 */}
               <div className="pt-2">
@@ -388,8 +390,8 @@ export default function Home() {
                   
                           {/* 标签 */}
                           <div className="absolute top-2 right-2 flex flex-col gap-1 items-end z-10">
+                            {/* 暂时隐藏所有特性标签
                             {ink.has_sheen && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">Sheen</span>}
-                            {/* 暂时隐藏层析和闪粉标签
                             {ink.has_shimmer && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">闪粉</span>}
                             {ink.has_shading && <span className="px-2 py-0.5 bg-white/95 text-[10px] rounded-md font-semibold text-gray-700 shadow-sm">层析</span>}
                             */}
@@ -546,8 +548,8 @@ export default function Home() {
 
                       {/* 特性 tags */}
                       <div className="flex flex-wrap gap-1 mt-3">
+                        {/* 暂时隐藏所有特性标签
                         {ink.has_sheen && <span className="px-1.5 py-0.5 bg-blue-50 text-blue-700 text-[10px] rounded border border-blue-100">Sheen</span>}
-                        {/* 暂时隐藏层析和闪粉标签
                         {ink.has_shimmer && <span className="px-1.5 py-0.5 bg-yellow-50 text-yellow-700 text-[10px] rounded border border-yellow-100">闪粉</span>}
                         {ink.has_shading && <span className="px-1.5 py-0.5 bg-teal-50 text-teal-700 text-[10px] rounded border border-teal-100">层析</span>}
                         */}
@@ -613,6 +615,7 @@ export default function Home() {
                         {/* 属性网格 */}
                         <h3 className="text-lg font-bold text-gray-800 mb-4">墨水特性</h3>
                         <div className="grid grid-cols-2 gap-4 mb-8">
+                          {/* 暂时隐藏所有不准确的特性标签
                           <div className={`p-4 rounded-2xl border ${selectedInk.has_sheen ? 'bg-blue-50 border-blue-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
                             <div className="flex items-center gap-2 mb-1">
                               <Sparkles size={18} className={selectedInk.has_sheen ? 'text-blue-500' : 'text-gray-400'} />
@@ -621,7 +624,6 @@ export default function Home() {
                             <p className="text-xs text-gray-500">金属反光</p>
                           </div>
                           
-                          {/* 暂时隐藏闪粉和层析标签
                           <div className={`p-4 rounded-2xl border ${selectedInk.has_shimmer ? 'bg-yellow-50 border-yellow-100' : 'bg-gray-50 border-gray-100 opacity-50'}`}>
                             <div className="flex items-center gap-2 mb-1">
                               <Droplets size={18} className={selectedInk.has_shimmer ? 'text-yellow-500' : 'text-gray-400'} />
