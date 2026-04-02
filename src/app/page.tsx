@@ -682,8 +682,9 @@ export default function Home() {
                     {/* 图片来源声明 */}
                     {selectedInk.image_urls && selectedInk.image_urls.length > 0 && (
                       <div className="mt-8 text-center text-xs text-gray-400 border-t border-gray-100 pt-4">
-                        <p>🖼️ 试色图来源：Mountain of Ink 等网络公开渠道</p>
-                        <p className="mt-1 opacity-70">（非商业展示，仅供墨水爱好者交流参考）</p>
+                        <p>🖼️ 当前色卡为网络搜集临时占位（侵权即删）</p>
+                        <p className="mt-1 opacity-70">非盈利公益展示。我们正在加紧开发“用户传图”功能，</p>
+                        <p className="mt-1 opacity-70">期待未来与大家一起共建纯原创的中文彩墨档案馆！</p>
                       </div>
                     )}
                   </div>
