@@ -294,7 +294,6 @@ export default function Home() {
                             <span className="text-sm text-gray-700 group-hover:text-gray-900">Sheen (光泽)</span>
                           </label>
                           
-                          {/* 
                           // 暂且隐藏 层析 和 闪粉 的筛选器
                           <label className="flex items-center gap-3 cursor-pointer group">
                             <div className="relative flex items-center justify-center">
@@ -325,7 +324,6 @@ export default function Home() {
                             </div>
                             <span className="text-sm text-gray-700 group-hover:text-gray-900">Shimmer (闪粉)</span>
                           </label>
-                          */}
                 </div>
               </div>
               */}
